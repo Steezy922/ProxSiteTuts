@@ -374,9 +374,12 @@
         Steezys Proxy Site Tutorials • Built for GitHub Pages
     </footer>
 
+    <!-- THIS LINE MUST BE ABOVE THE MAIN <script> TAG -->
+    <script src="scripts/manifest.js"></script>
+
     <script>
-        // Global registry where each file in scripts/ registers itself
         window.STEEZY_TUTORIALS = [];
+        // ... rest of your code ...
 
         let activeTutorial = null;
         let currentPageIndex = 0;
