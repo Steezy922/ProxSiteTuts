@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steezys Proxy Site Tutorials</title>
+    <style>
+        :root {
+            --bg-dark: #09090e;
+            --bg-card: #12121c;
+            --bg-hover: #191928;
+            --accent: #00f0ff;
+            --accent-glow: rgba(0, 240, 255, 0.25);
+            --secondary: #8b5cf6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #222235;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.65;
+        }
+
+        /* Navbar */
+        header {
+            background: rgba(9, 9, 14, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1.1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.55rem 1.1rem;
+            border-radius: 8px;
+            width: 280px;
+            max-width: 100%;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3.5rem 1.5rem 2rem;
+            background: radial-gradient(circle at top, rgba(139, 92, 246, 0.14), transparent 60%);
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        /* Subject Grid */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem 4rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.6rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background: var(--bg-hover);
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            width: fit-content;
+            text-transform: uppercase;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            padding-top: 0.9rem;
+        }
+
+        /* Tutorial Reader View */
+        #reader-view {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.55rem 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .btn:hover:not(:disabled) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #33f3ff;
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Page Stepper Pills */
+        .page-tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-tab {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .page-tab.active {
+            background: rgba(0, 240, 255, 0.15);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .reader-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 2.2rem;
+        }
+
+        .page-indicator {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.4rem;
+        }
+
+        .reader-box h1 {
+            font-size: 2rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .reader-text {
+            color: #e2e8f0;
+            font-size: 1.05rem;
+            white-space: pre-line;
+            margin-bottom: 1.5rem;
+        }
+
+        .code-wrapper {
+            position: relative;
+            margin: 1.5rem 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.7rem;
+            right: 0.7rem;
+            background: #1e1e30;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.3rem 0.7rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        pre {
+            background: #06060a;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.3rem;
+            overflow-x: auto;
+            color: #38bdf8;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 0.92rem;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.8rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="goHome()">⚡ STEEZYS TUTORIALS</div>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search subjects (Proxies, Games...)" onkeyup="filterSubjects()">
+    </header>
+
+    <!-- Home View: Subject Cards -->
+    <div id="home-view">
+        <section class="hero">
+            <h1>Steezys Proxy Site Tutorials</h1>
+            <p>Step-by-step guides on how to code, host, and make your own proxies, live chatrooms, and browser games work.</p>
+        </section>
+
+        <main class="container">
+            <div class="grid" id="subjects-grid"></div>
+        </main>
+    </div>
+
+    <!-- Reader View: Multi-Page Tutorial -->
+    <main class="container" id="reader-view">
+        <div class="top-controls">
+            <button class="btn" onclick="goHome()">← All Subjects</button>
+            <span id="subject-badge" class="badge" style="margin:0;">Subject</span>
+        </div>
+
+        <!-- Clickable Page Tabs -->
+        <div class="page-tabs" id="page-tabs"></div>
+
+        <div class="reader-box">
+            <div class="page-indicator" id="page-counter">Page 1 of 3</div>
+            <h1 id="page-title">Page Title</h1>
+            <div class="reader-text" id="page-text"></div>
+
+            <div class="code-wrapper" id="code-section" style="display: none;">
+                <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+                <pre><code id="page-code"></code></pre>
+            </div>
+
+            <div class="nav-footer">
+                <button class="btn" id="prev-btn" onclick="changePage(-1)">← Previous Page</button>
+                <button class="btn btn-primary" id="next-btn" onclick="changePage(1)">Next Page →</button>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        Steezys Proxy Site Tutorials • Built for GitHub Pages
+    </footer>
+
+    <script>
+        // Global registry where each file in scripts/ registers itself
+        window.STEEZY_TUTORIALS = [];
+
+        let activeTutorial = null;
+        let currentPageIndex = 0;
+
+        // Dynamically load every script listed in scripts/manifest.js
+        function loadAllSubjects() {
+            if (!window.TUTORIAL_FILES || window.TUTORIAL_FILES.length === 0) {
+                document.getElementById("subjects-grid").innerHTML = 
+                    "<p>No tutorial files found in scripts/manifest.js</p>";
+                return;
+            }
+
+            let loadedCount = 0;
+            window.TUTORIAL_FILES.forEach(filePath => {
+                const script = document.createElement("script");
+                script.src = filePath;
+                script.onload = () => {
+                    loadedCount++;
+                    if (loadedCount === window.TUTORIAL_FILES.length) {
+                        renderSubjects(window.STEEZY_TUTORIALS);
+                    }
+                };
+                document.body.appendChild(script);
+            });
+        }
+
+        function renderSubjects(list) {
+            const grid = document.getElementById("subjects-grid");
+            grid.innerHTML = list.map((tut) => {
+                const idx = window.STEEZY_TUTORIALS.indexOf(tut);
+                return `
+                    <div class="card" onclick="openSubject(${idx})">
+                        <div>
+                            <span class="badge">${tut.tag || "Guide"}</span>
+                            <h3>${tut.subjectTitle}</h3>
+                            <p>${tut.description}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span>${tut.pages.length} Pages</span>
+                            <span>Start Tutorial →</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterSubjects() {
+            const q = document.getElementById("searchInput").value.toLowerCase();
+            const filtered = window.STEEZY_TUTORIALS.filter(t =>
+                t.subjectTitle.toLowerCase().includes(q) ||
+                t.description.toLowerCase().includes(q) ||
+                (t.tag && t.tag.toLowerCase().includes(q))
+            );
+            renderSubjects(filtered);
+        }
+
+        function openSubject(index) {
+            activeTutorial = window.STEEZY_TUTORIALS[index];
+            currentPageIndex = 0;
+
+            document.getElementById("home-view").style.display = "none";
+            document.getElementById("reader-view").style.display = "block";
+            document.getElementById("subject-badge").innerText = activeTutorial.subjectTitle;
+
+            renderPage();
+        }
+
+        function renderPage() {
+            const pages = activeTutorial.pages;
+            const page = pages[currentPageIndex];
+
+            // Render clickable tabs for every page in this subject
+            const tabsContainer = document.getElementById("page-tabs");
+            tabsContainer.innerHTML = pages.map((p, i) => `
+                <button class="page-tab ${i === currentPageIndex ? 'active' : ''}" onclick="jumpToPage(${i})">
+                    ${i + 1}. ${p.pageTitle}
+                </button>
+            `).join('');
+
+            document.getElementById("page-counter").innerText = `Page ${currentPageIndex + 1} of ${pages.length}`;
+            document.getElementById("page-title").innerText = page.pageTitle;
+            document.getElementById("page-text").innerText = page.text;
+
+            const codeSection = document.getElementById("code-section");
+            if (page.code && page.code.trim() !== "") {
+                codeSection.style.display = "block";
+                document.getElementById("page-code").innerText = page.code;
+            } else {
+                codeSection.style.display = "none";
+            }
+
+            // Handle Back & Next button states
+            document.getElementById("prev-btn").disabled = (currentPageIndex === 0);
+            
+            const nextBtn = document.getElementById("next-btn");
+            if (currentPageIndex === pages.length - 1) {
+                nextBtn.innerText = "Finish Tutorial ✓";
+                nextBtn.onclick = goHome;
+            } else {
+                nextBtn.innerText = "Next Page →";
+                nextBtn.onclick = () => changePage(1);
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function changePage(step) {
+            currentPageIndex += step;
+            renderPage();
+        }
+
+        function jumpToPage(index) {
+            currentPageIndex = index;
+            renderPage();
+        }
+
+        function goHome() {
+            document.getElementById("reader-view").style.display = "none";
+            document.getElementById("home-view").style.display = "block";
+        }
+
+        function copyCode() {
+            const code = document.getElementById("page-code").innerText;
+            navigator.clipboard.writeText(code);
+            const btn = document.querySelector(".copy-btn");
+            btn.innerText = "Copied!";
+            setTimeout(() => btn.innerText = "Copy Code", 1500);
+        }
+
+        loadAllSubjects();
+    </script>
+    <script src="scripts/manifest.js"></script>
+</body>
+</html>
